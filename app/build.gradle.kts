@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("androidx.room")
 }
 
 android {
@@ -17,6 +18,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 
     buildTypes {
@@ -44,6 +49,7 @@ android {
 }
 
 dependencies {
+val room_version = "2.6.1"
 
     //Hilt
     implementation("com.google.dagger:hilt-android:2.42")
@@ -56,6 +62,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment-ktx:1.6.1")
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
