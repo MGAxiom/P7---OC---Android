@@ -28,7 +28,7 @@ abstract class AppDatabase : RoomDatabase() {
     ) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            KParameter.Kind.INSTANCE?.let { database ->
+            INSTANCE?.let { database ->
                 scope.launch {
                     populateDatabase(database.sleepDtoDao(), database.userDtoDao())
                 }
@@ -66,6 +66,14 @@ abstract class AppDatabase : RoomDatabase() {
                 SleepDto(
                     startTime = LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
                         .toEpochMilli(), duration = 450, quality = 3
+                )
+            )
+
+            userDtoDao.insertUser(
+                UserDto(
+                    name = "John Doe",
+                    email = "johndoe@example.com",
+                    password = ""
                 )
             )
         }

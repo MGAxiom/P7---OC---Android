@@ -1,15 +1,16 @@
 package com.openclassrooms.arista.data.repository
 
-import com.openclassrooms.arista.data.FakeApiService
+import com.openclassrooms.arista.data.dao.UserDtoDao
 import com.openclassrooms.arista.domain.model.User
 
-class UserRepository(private val apiService: FakeApiService = FakeApiService()) {
+class UserRepository(private val userDao: UserDtoDao) {
 
-    // Get the current user
-    var user: User
-        get() = apiService.user
-        // Set or update the user
-        set(user) {
-            apiService.user = user
-        }
+    suspend fun getUser(): User {
+        return User.fromDto(userDao.getUser())
+    }
+
+    suspend fun updateUser(user: User) {
+        val userDto = user.toDto()
+        userDao.updateUser(userDto)
+    }
 }
