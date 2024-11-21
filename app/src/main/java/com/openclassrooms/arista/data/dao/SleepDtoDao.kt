@@ -15,6 +15,6 @@ interface SleepDtoDao {
     @Query("SELECT * FROM sleep")
     fun getAllSleeps(): Flow<List<SleepDto>>
 
-    @Query("DELETE FROM sleep")
+    @Query("DELETE FROM sleep WHERE id = :sleepId")
     suspend fun deleteSleepById(sleepId: Long)
 }

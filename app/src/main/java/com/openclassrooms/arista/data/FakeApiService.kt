@@ -14,9 +14,9 @@ class FakeApiService {
     var user: User = User("John Doe", "johndoe@example.com")
 
     private val sleepData = listOf(
-        Sleep(LocalDateTime.now().minusDays(1), 7, 8),
-        Sleep(LocalDateTime.now().minusDays(2), 6, 5),
-        Sleep(LocalDateTime.now().minusDays(3), 8, 9)
+        Sleep(1, LocalDateTime.now().minusDays(1), 7, 8),
+        Sleep(2, LocalDateTime.now().minusDays(2), 6, 5),
+        Sleep(3, LocalDateTime.now().minusDays(3), 8, 9)
     )
 
     private val exerciseData = mutableListOf(

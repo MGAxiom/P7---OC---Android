@@ -5,8 +5,8 @@ import com.openclassrooms.arista.domain.model.User
 
 class UserRepository(private val userDao: UserDtoDao) {
 
-    suspend fun getUser(): User {
-        return User.fromDto(userDao.getUser())
+    fun getUser(): User? {
+        return userDao.getUser().let { User.fromDto(it) }
     }
 
     suspend fun updateUser(user: User) {

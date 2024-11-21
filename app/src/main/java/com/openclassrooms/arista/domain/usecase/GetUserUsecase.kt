@@ -6,6 +6,6 @@ import javax.inject.Inject
 
 class GetUserUsecase @Inject constructor(private val userRepository: UserRepository) {
     fun execute(): User {
-        return userRepository.user
+        return userRepository.getUser()
     }
 }

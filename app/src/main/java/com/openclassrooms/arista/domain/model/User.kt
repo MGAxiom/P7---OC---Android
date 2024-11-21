@@ -16,11 +16,13 @@ data class User(
     }
 
     companion object {
-        fun fromDto(dto: UserDto): User {
-            return User(
-                dto.name,
-                dto.email
-            )
+        fun fromDto(dto: UserDto?): User? {
+            return dto?.let {
+                User(
+                    it.name,
+                    it.email
+                )
+            }
         }
     }
 }
