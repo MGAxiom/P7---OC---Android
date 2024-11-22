@@ -11,13 +11,19 @@ import com.openclassrooms.arista.data.dao.UserDtoDao
 import com.openclassrooms.arista.data.entity.ExerciseDto
 import com.openclassrooms.arista.data.entity.SleepDto
 import com.openclassrooms.arista.data.entity.UserDto
+import com.openclassrooms.arista.domain.model.Exercise
+import com.openclassrooms.arista.domain.model.ExerciseCategory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import kotlin.reflect.KParameter
 
-@Database(entities = [UserDto::class, SleepDto::class, ExerciseDto::class], version = 1, exportSchema = false)
+@Database(
+    entities = [UserDto::class, SleepDto::class, ExerciseDto::class],
+    version = 1,
+    exportSchema = false
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDtoDao(): UserDtoDao
     abstract fun sleepDtoDao(): SleepDtoDao
@@ -30,7 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let { database ->
                 scope.launch {
-                    populateDatabase(database.sleepDtoDao(), database.userDtoDao())
+                    populateDatabase(database.sleepDtoDao(), database.exerciseDtoDao(),database.userDtoDao())
                 }
             }
         }
@@ -54,7 +60,37 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
 
-        suspend fun populateDatabase(sleepDao: SleepDtoDao, userDtoDao: UserDtoDao) {
+        suspend fun populateDatabase(
+            sleepDao: SleepDtoDao,
+            exerciseDtoDao: ExerciseDtoDao,
+            userDtoDao: UserDtoDao
+        ) {
+
+            exerciseDtoDao.insertExercise(
+                ExerciseDto(
+                    startTime = LocalDateTime.now().minusHours(5).toEpochSecond(ZoneOffset.UTC),
+                    duration = 30,
+                    category = ExerciseCategory.Running.name,
+                    intensity = 7
+                )
+            )
+            exerciseDtoDao.insertExercise(
+                ExerciseDto(
+                    startTime = LocalDateTime.now().minusDays(1).minusHours(3).toEpochSecond(ZoneOffset.UTC),
+                    duration = 45,
+                    category = ExerciseCategory.Swimming.name,
+                    intensity = 6
+                )
+            )
+            exerciseDtoDao.insertExercise(
+                ExerciseDto(
+                    startTime = LocalDateTime.now().minusDays(2).minusHours(4).toEpochSecond(ZoneOffset.UTC),
+                    duration = 60,
+                    category = ExerciseCategory.Football.name,
+                    intensity = 8
+                )
+            )
+
 
             sleepDao.insertSleep(
                 SleepDto(
@@ -62,9 +98,11 @@ abstract class AppDatabase : RoomDatabase() {
                         .toEpochMilli(), duration = 480, quality = 4
                 )
             )
+
             sleepDao.insertSleep(
                 SleepDto(
-                    startTime = LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
+                    startTime =
+                    LocalDateTime.now().minusDays(2).atZone(ZoneOffset.UTC).toInstant()
                         .toEpochMilli(), duration = 450, quality = 3
                 )
             )
