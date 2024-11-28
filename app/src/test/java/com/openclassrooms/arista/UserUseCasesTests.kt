@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
-class ExerciseUseCasesTests {
+class UserUseCasesTests {
     @Mock
     private lateinit var repository: UserRepository
 
